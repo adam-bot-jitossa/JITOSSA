@@ -233,7 +233,7 @@ export async function handler(chatUpdate) {
 								let data = (await conn.onWhatsApp(jid))[0] || {};
 								if (data.exists)
 									m.reply(
-										`*🗂️ Plugin:* ${m.plugin}\n*👤 Sender:* ${m.sender}\n*💬 Chat:* ${m.chat}\n*💻 Command:* ${usedPrefix}${command} ${args.join(' ')}\n📄 *Error Logs:*\n\n\`\`\`${text}\`\`\``.trim(),
+										`*🗂️ إضـافـة :* ${m.plugin}\n*👤 المـرسـل :* ${m.sender}\n*💬 المـحادثـة :* ${m.chat}\n*💻 امــر :* ${usedPrefix}${command} ${args.join(' ')}\n📄 *المـشـكل:*\n\n\`\`\`${text}\`\`\``.trim(),
 										data.jid
 									);
 							}

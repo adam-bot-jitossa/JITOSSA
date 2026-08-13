@@ -2,7 +2,7 @@
 // بـلـوغـيـن: Izuku-mi | صـنـع سـتـيـكـر مـن صـورة/فـيـديـو
 
 // ─── مـعـلـومـات الـقـنـاة ─────────────────────────────────────────────
-const channelName = '𝙄𝙎𝘼𝙂𝙄 𝙔𝙊𝙄𝘾𝙃𝙄 𝘽𝙊𝙏 - 𝟭𝟭 ⚽⚡'
+const channelName = '𝗝𝗜𝗧𝗢𝗦𝗦𝗔 𝗕𝗢𝗧 🇲🇦'
 const CHANNEL_ID = '120363410733859643@newsletter'
 const newsletter = {
     forwardingScore: 999,

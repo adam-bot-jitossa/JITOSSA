@@ -189,7 +189,7 @@ export async function handler(chatUpdate) {
 					m.reply('Ngecit -_-'); // Hehehe
 				else m.exp += xp;
 				if (!isPrems && plugin.limit && global.db.data.users[m.sender].limit < plugin.limit * 1) {
-					this.reply(m.chat, `[❗]Your limit has run out, please buy via *${usedPrefix}buy limit*`, m);
+					this.reply(m.chat, `*لـقـد نفـدت حـدودك، الـرجـاء الـشـراء عـبـر* *${usedPrefix} الشراء*`, m);
 					continue; // Limit habis
 				}
 				if (plugin.level > _user.level) {
@@ -247,7 +247,7 @@ export async function handler(chatUpdate) {
 							console.error(e);
 						}
 					}
-					if (m.limit) m.reply(+m.limit + ' Limit used ✔️');
+					if (m.limit) m.reply(+m.limit + '1 مـن الـحد تــم استـخـدامـه ✔️');
 				}
 				break;
 			}
@@ -367,7 +367,7 @@ export async function deleteUpdate(message) {
 		if (!chat.delete) return;
 		await this.reply(
 			msg.chat,
-			`Detected @${participant.split`@`[0]} has deleted a message\nTo disable this feature, type\n*.enable delete*\n\nتم رصد @${participant.split`@`[0]} قام بحذف رسالة\nلإيقاف هذه الميزة، اكتب\n*.enable delete*`.trim(),
+			`تـم رصـد @${participant.split`@`[0]} قـام بحـذف رسـالـة\nلإيقـاف هـذه الـمـيزة، اكتـب\n*.enable delete*`.trim(),
 			msg,
 			{
 				mentions: [participant],

@@ -29,7 +29,7 @@ let handler = async (m, { conn, args, usedPrefix: _p }) => {
     caption += `*مـثـل*\n\`${_p}حالة_الطقس casablanca\`\n`
     caption += `\`${_p}حالة_الطقس agadir\`\n`
     caption += `\`${_p}حالة_الطقس rabat\`\n\n`
-    caption += `𝘽𝙔 𝘾𝘼𝙍𝙇-𝘽𝙊𝗧`
+    caption += ``
 
     await conn.sendMessage(m.chat, {
         text: caption,

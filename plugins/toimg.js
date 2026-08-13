@@ -1,0 +1,52 @@
+//تـرجـمـة وتـعـديـل: نـورديـن
+//بـلـوغـيـن: Izuku-mi | تـحـويـل سـتـيـكـر لـصـورة
+
+let handler = async (m, { conn, usedPrefix, command }) => {
+    // ===== مـعـلـومـات الـقـنـاة + انـسـتـا =====
+    const channelName = '' // خـلـيـتـو خـاوي
+    const instagram = '𝗝𝗜𝗧𝗢𝗦𝗦𝗔 𝗕𝗢𝗧 🇲🇦'
+    const newsletter = {
+        forwardingScore: 999,
+        isForwarded: true,
+        forwardedNewsletterMessageInfo: {
+            newsletterJid: '120363410733859643@newsletter',
+            newsletterName: `${instagram}`
+        }
+    }
+    // ==============================================
+
+    const notStickerMessage = `*⚠️ الـرجـاء قـم بـالـرد عـلـى الـصـورة*`
+    
+    if (!m.quoted) return conn.sendMessage(m.chat, {
+        text: notStickerMessage,
+        contextInfo: newsletter
+    }, { quoted: m })
+
+    const q = m.quoted || m
+    let mime = (q.mtype || q.mediaType || '').toLowerCase()
+    
+    if (mime.includes('webp') || q.mtype === 'stickerMessage') {
+        await m.react('⏳')
+        let media = await q.download()
+        
+        await conn.sendMessage(m.chat, {
+            image: media, 
+            caption: `*📥 مـحـول الـسـتـيـكـر*\n\n*✅ تـم الـتـحـويـل بـنـجـاح*\n\n*by ${instagram}*`,
+            contextInfo: newsletter
+        }, { quoted: m })
+        
+        await m.react('✅')
+        
+    } else {
+        return conn.sendMessage(m.chat, {
+            text: notStickerMessage,
+            contextInfo: newsletter
+        }, { quoted: m })
+    }
+}
+
+handler.help = ['تحويل_ستيكر| toimg <الـرد عـلـى سـتـيـكـر>'];
+handler.tags = ['تـحـويـل'];
+handler.command = /^(تحويل_ستيكر|toimg|img)$/i;
+handler.limit = false;
+export default handler

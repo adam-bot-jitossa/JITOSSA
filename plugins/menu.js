@@ -1,175 +1,207 @@
 import moment from 'moment-timezone'
-import fs from 'fs'
 
-const handler = async (m, { conn, usedPrefix: _p, command, isOwner, args }) => {
-
-	const allTags = {
-		main: 'Main Menu',
-		ai: 'AI Menu',
-		downloader: 'Downloader Menu',
-		uploader: 'Uploader Menu',
-		editor: 'Editor Menu',
-		sticker: 'Sticker Menu',
-		tools: 'Tools Menu',
-		infobot: 'Info Menu',
-		group: 'Group Menu',
-		owner: 'Owner Menu',
-	}
-
-	let teks = (args[0] || '').toLowerCase()
-	let tags = {}
-
-	if (!Object.keys(allTags).includes(teks)) teks = 'all'
-
-	tags = teks === 'all'
-		? { ...allTags }
-		: { [teks]: allTags[teks] }
-
-	if (!isOwner) delete tags.owner
-	if (!m.isGroup) delete tags.group
-
-	const defaultMenu = {
-		before: `
-╭━━━〔 ${conn.user.name} 〕━━━⬣
-┃ 👋 ${ucapan()}, %name
-┃
-┃ 📅 %week, %date
-┃ ⏱ Uptime: %uptime
-┃ 👥 Users: %rtotalreg/%totalreg
-╰━━━━━━━━━━━━⬣
-%readmore`.trim(),
-
-		header: '\n╭─〔 %category 〕',
-		body: '│ ◦ %cmd %flags',
-		footer: '╰────────────⬣',
-		after: '',
-	}
-
-	try {
-		const plugins = Object.values(global.plugins).filter(p => !p.disabled)
-
-		const help = plugins.map(p => ({
-			help: Array.isArray(p.help) ? p.help : [p.help],
-			tags: Array.isArray(p.tags) ? p.tags : [p.tags],
-			prefix: 'customPrefix' in p,
-			limit: '',
-			premium: '',
-			owner: p.owner ? '🄾' : '',
-		}))
-
-		const rows = Object.keys(allTags).map(tag => ({
-			title: allTags[tag],
-			description: `Show ${tag} menu`,
-			id: `${_p + command} ${tag}`,
-		}))
-
-		const text = [
-			defaultMenu.before,
-			...Object.keys(tags).map(tag => {
-				const items = help
-					.filter(p => p.tags.includes(tag))
-					.flatMap(p =>
-						p.help.map(h => {
-							const cmd = p.prefix ? h : `${_p}${h}`
-							const flags = [p.owner].join(' ')
-							return defaultMenu.body
-								.replace(/%cmd/g, cmd)
-								.replace(/%flags/g, flags)
-						})
-					).join('\n')
-
-				return `${defaultMenu.header.replace('%category', tags[tag])}\n${items}\n${defaultMenu.footer}`
-			}),
-			defaultMenu.after,
-		].join('\n')
-
-		let user = global.db.data.users[m.sender]
-		let { registered } = user
-
-		let name = registered ? user.name : conn.getName(m.sender)
-		let uptime = clockString(process.uptime() * 1000)
-
-		let totalreg = Object.keys(global.db.data.users).length
-		let rtotalreg = Object.values(global.db.data.users).filter(u => u.registered).length
-
-		let d = new Date()
-		let locale = 'en-US'
-
-		let week = d.toLocaleDateString(locale, { weekday: 'long' })
-		let date = d.toLocaleDateString(locale, {
-			day: 'numeric',
-			month: 'long',
-			year: 'numeric',
-		})
-
-		const replace = {
-			'%': '',
-			p: _p,
-			uptime,
-			me: conn.user.name,
-			name,
-			week,
-			date,
-			totalreg,
-			rtotalreg,
-			readmore: readMore,
-		}
-
-		conn.sendButton(
-			m.chat,
-			{
-				image: fs.readFileSync('./media/menu.jpg'),
-				caption: text.replace(
-					new RegExp(`%(${Object.keys(replace).join('|')})`, 'g'),
-					(_, key) => replace[key]
-				),
-				footer: global.namebot,
-				buttons: [
-					{
-						name: 'single_select',
-						buttonParamsJson: JSON.stringify({
-							title: '📂 Menu List',
-							sections: [{ rows }],
-						}),
-					},
-					{
-						name: 'quick_reply',
-						buttonParamsJson: JSON.stringify({
-							display_text: '👑 Owner',
-							id: _p + 'owner',
-						}),
-					},
-				],
-			},
-			{ quoted: m }
-		)
-
-	} catch (e) {
-		console.error(e)
-		m.reply('Error displaying menu.')
-	}
+const channelName = '𝗝𝗜𝗧𝗢𝗦𝗦𝗔 𝗕𝗢𝗧 🇲🇦'
+const CHANNEL_ID = '120363410733859643@newsletter'
+const newsletter = {
+    forwardingScore: 999,
+    isForwarded: true,
+    forwardedNewsletterMessageInfo: {
+        newsletterJid: CHANNEL_ID,
+        newsletterName: channelName
+    }
 }
 
-handler.help = ['menu']
-handler.command = /^(menu|help|\?)$/i
+const BANNER = 'https://files.catbox.moe/oxz51r.jpg'
 
+const handler = async (m, { conn, usedPrefix: _p, args, command }) => {
+    try {
+        let category = command.toLowerCase().replace('الأوامر', '').replace(/_/g, '').replace(/ /g, '')
+        if(!category) category = (args[0] || '').toLowerCase().replace(/_/g, '').replace(/ /g, '')
+
+        let name = m.pushName || 'مستخدم'
+        let number = m.sender.split('@')[0]
+        let date = moment().tz('Africa/Casablanca').format('DD/MM/YYYY')
+        let time = moment().tz('Africa/Casablanca').format('HH:mm:ss')
+        let uptime = process.uptime()
+        let h = Math.floor(uptime / 3600)
+        let min = Math.floor((uptime % 3600) / 60)
+        let sec = Math.floor(uptime % 60)
+        let uptimeStr = `${h} س ${min} د ${sec} ث`
+
+        let channelLink = 'https://whatsapp.com/channel/0029VbCxraN7T8bbAyc2j31J'
+
+        const menus = {
+            الكل: `╮──〔 📥 قــســم الـتـحـمــيـل 〕──╭
+│📥 *${_p}يـوتـيـوب_فـيـديـو*
+│📥 *${_p}يـوتـيـوب_مـوسـيـقـى*
+│📥 *${_p}تـيـكـتـوك*
+│📥 *${_p}فـيـسـبـوك*
+│📥 *${_p}اسـتـغـرام*
+│📥 *${_p}مـيـديـافـايـر*
+│📥 *${_p}تـويـتـر*
+│📥 *${_p}تـحـمـيـل_اغـنـيـة*
+│📥 *${_p}تـطـبـيـق*
+│📥 *${_p}تـحـمـيـل*
+╯────────────────╰
+
+╮──〔 🔍 قــســم الـبــحــث 〕──╭
+│🔍 *${_p}بـحـث*
+│🔍 *${_p}بـيـنـتـرسـت*
+│🔍 *${_p}جـيـتـهـاب*
+│🔍 *${_p}بـحـث_اغـانـي*
+╯────────────────╰
+
+╮──〔 🤖 قــســم الـذكــاء 〕──╭
+│🤖 *${_p}نـانـو*
+│🤖 *${_p}انـشـاء_صـور*
+│🤖 *${_p}مـيـتا*
+╯────────────────╰
+
+╮──〔 🎨 قــسـم المـلصـقات 〕──╭
+│🎨 *${_p}تـحـسـيـن_جـودة*
+│🎨 *${_p}مـلـصـق*
+│🎨 *${_p}تـحـويـل_سـتـيـكـر*
+╯────────────────╰
+
+╮──〔 👥 قــســم الـمـجـمـوعـة 〕──╭
+│👥 *${_p}اضـافـة*
+│👥 *${_p}طـرد*
+│👥 *${_p}تـرقـيـة*
+│👥 *${_p}انـزال*
+│👥 *${_p}فـتـح*
+│👥 *${_p}اغـلاق*
+│👥 *${_p}قـفـل_شـات*
+│👥 *${_p}فـتـح_شـات*
+│👥 *${_p}اشـارة*
+╯────────────────╰
+
+╮──〔 👑 قــســم الـمـطــور 〕──╭
+│👑 *${_p}حـظـر*
+│👑 *${_p}الـغـاء*
+│👑 *${_p}اعـادة_تـشـغـيـل*
+│👑 *${_p}تـسـجـيـل*
+│👑 *${_p}الـغـاء_تـسـجـيـل*
+│👑 *${_p}تـفـعـيـل*
+│👑 *${_p}تـعـطـيـل*
+│👑 *${_p}اضـف_مـيـتـا*
+│👑 *${_p}تـجـديـد_الـرابـط*
+│👑 *${_p}مـطـور*
+│👑 *${_p}حـفـظ_بـلاجـن*
+│👑 *${_p}عـدد_الـمـيـزات*
+│👑 *${_p}الاعـدادات*
+│👑 *${_p}رسـالـة_الـتـرحـيـب*
+│👑 *${_p}رسـالـة_الـمـغـادرة*
+╯────────────────╰
+
+> 𝘽𝙔 𝗝𝗜𝗧𝗢𝗦𝗦𝗔 𝗕𝗢𝗧 🇲🇦🫠`,
+
+            التحميل: `╮──〔 📥 الـتـحـمـيـل 〕──╭\n│📥 *${_p}يـوتـيـوب_فـيـديـو*\n│📥 *${_p}يـوتـيـوب_مـوسـيـقـى*\n│📥 *${_p}تـيـكـتـوك*\n│📥 *${_p}فـيـسـبـوك*\n│📥 *${_p}اسـتـغـرام*\n│📥 *${_p}مـيـديـافـايـر*\n│📥 *${_p}تـويـتـر*\n│📥 *${_p}تـحـمـيـل_اغـنـيـة*\n│📥 *${_p}تـطـبـيـق*\n│📥 *${_p}تـحـمـيـل*\n╯────────────────╰`,
+            البحث: `╮──〔 🔍 قــسـم بـحـث 〕──╭\n│🔍 *${_p}بـحـث*\n│🔍 *${_p}بـيـنـتـريـسـت*\n│🔍 *${_p}جـيـتـهـاب*\n│🔍 *${_p}بـحـث_اغـانـي*\n╯────────────────╰`,
+            الذكاء: `╮──〔 🤖 الـذكـاء 〕──╭\n│🤖 *${_p}نـانـو*\n│🤖 *${_p}انـشـاء_صـور*\n│🤖 *${_p}مـيـتا*\n╯────────────────╰`,
+            الصور: `╮──〔 🎨 الملـصـقات 〕──╭\n│🎨 *${_p}تـحـسـيـن_جـودة*\n│🎨 *${_p}مـلـصـق*\n│🎨 *${_p}تـحـويـل_سـتـيـكـر*\n╯────────────────╰`,
+            ادارةالمجموعة: `╮──〔 👥 قـسـم الـمـجـمـوعـة 〕──╭\n│👥 *${_p}اضـافـة*\n│👥 *${_p}طـرد*\n│👥 *${_p}تـرقـيـة*\n│👥 *${_p}انـزال*\n│👥 *${_p}فـتـح*\n│👥 *${_p}اغـلاق*\n│👥 *${_p}قـفـل_شـات*\n│👥 *${_p}فـتـح_شـات*\n│👥 *${_p}اشـارة*\n╯────────────────╰`,
+            المطور: `╮──〔 👑 الـمـطـور 〕──╭\n│👑 *${_p}حـظـر*\n│👑 *${_p}الـغـاء*\n│👑 *${_p}اعـادة_تـشـغـيـل*\n│👑 *${_p}تـسـجـيـل*\n│👑 *${_p}الـغـاء_تـسـجـيـل*\n│👑 *${_p}تـفـعـيـل*\n│👑 *${_p}تـعـطـيـل*\n│👑 *${_p}اضـف_مـيـتـا*\n│👑 *${_p}تـجـديـد_الـرابـط*\n│👑 *${_p}مـطـور*\n│👑 *${_p}حـفـظ_بـلاجـن*\n│👑 *${_p}عـدد_الـمـيـزات*\n│👑 *${_p}الاعـدادات*\n│👑 *${_p}رسـالـة_تـرحـيـب*\n│👑 *${_p}رسـالـة_مـغـادرة*\n╯────────────────╰`,
+            الابلاغ: `╮──〔 🚨 قـسـم الابـلاغ 〕──╭\n│🚨 *${_p}ابـلاغ*\n╯────────────────╰`,
+            الاخبار: `╮──〔 📰 قـسـم الاخـبـار 〕──╭\n│📰 *${_p}اخـبـار_الـجـزيـرة*\n│📰 *${_p}اخـبـار_الـمـغـرب*\n╯────────────────╰`,
+            الطقس: `╮──〔 🌤️ قـسـم الـطـقـس 〕──╭\n│🌤️ *${_p}حـالـة_الـطـقـس*\n╯────────────────╰`,
+            الديني: `╮──〔 🌙 قـسـم الـديـنـي 〕──╭\n│🌙 *${_p}اوقـات_الـصـلاة*\n│🌙 *${_p}صـوت_الـقـرآن*\n│🌙 *${_p}قـرآن*\n╯────────────────╰`,
+            الترفيه: `╮──〔 🎯 قـسـم الـتـرفـيـه 〕──╭\n│🎯 *${_p}لـعـبـة_قـمـار*\n╯────────────────╰`,
+            خاصالتنصيب: `╮──〔 📦 قـسـم الـتـنـصـيـب 〕──╭\n│📦 *${_p}تـنـصـيـب*\n╯────────────────╰`,
+            اخرى: `╮──〔 🛠️ قـسـم الادوات 〕──╭\n│⚡ *${_p}فـحـص*\n│⚡ *${_p}رفـع*\n╯────────────────╰`
+        }
+
+        if (category && menus[category]) {
+            if(category === 'الكل'){
+                let fullText = menus[category]
+                let part1 = fullText.slice(0, 4000)
+                let part2 = fullText.slice(4000)
+
+                await conn.sendMessage(m.chat, {
+                    image: { url: BANNER },
+                    caption: part1,
+                    contextInfo: newsletter
+                }, {quoted: m})
+
+                if(part2 && part2.trim().length > 0){
+                    await new Promise(resolve => setTimeout(resolve, 700))
+                    await conn.sendMessage(m.chat, {
+                        text: part2,
+                        contextInfo: newsletter
+                    })
+                }
+                return
+            }
+
+            let caption = menus[category]
+            return await conn.sendButton(m.chat, {
+                image: { url: BANNER },
+                caption: caption,
+                footer: { text: `𝗕𝘆 𝗮𝗱𝗮𝗺.___.𝟵𝟴` }, // ✅ صلحنا هنا
+                buttons: [
+                    {name: 'quick_reply', buttonParamsJson: JSON.stringify({display_text: '🏠 الـرجـوع', id: _p + 'الأوامر'})}
+                ],
+                headerType: 4, // ✅ ضروري مع الصورة
+                contextInfo: newsletter
+            }, {quoted: m, mentions: [m.sender]})
+        }
+
+        let caption = `╮──〔 مـعـلـومـات 〕──╭
+│✨ *الاسـم:* ${name}
+│📞 *الـرقـم:* ${number}
+│⏱️ *الـتـشـغـيـل:* ${uptimeStr}
+│📆 *الـتـاريـخ:* ${date}
+│📟 *الـوقـت:* ${time}
+╯────────────────╰
+
+> 𝘽𝙔 𝗝𝗜𝗧𝗢𝗦𝗦𝗔 𝗕𝗢𝗧 🇲🇦✨️ `
+
+        let sections = [
+            {
+                title: "📜 جــمــيــــع الأوامـــــر 📜",
+                rows: [
+                    {title: "📖┊ جـمـيـع الـمـيـزات", description: "🎉 ┊ عـرض الـكـل", id: _p + "الأوامرالكل"}
+                ]
+            },
+            {
+                title: "📚 الأقـــــــســــــام 📚",
+                rows: [
+                    {title: "📥┊ الــقـسـم الأول", description: "📡 ┊ 「 قــســم التـحـميـل 」", id: _p + "الأوامرالتحميل"},
+                    {title: "🔍┊ الـقــســم الـثـانــي", description: "✨ ┊「 قــســم الــبحــث 」", id: _p + "الأوامرالبحث"},
+                    {title: "🤖┊ الـقــســم الـثـالـث", description: "👾 ┊「 قــســم الــذكــاء 」", id: _p + "الأوامرالذكاء"},
+                    {title: "🎨┊ الـقـسـم الــرابــع", description: "🖼️ ┊「 قــســم المـلـصـقـات 」", id: _p + "الأوامرالصور"},
+                    {title: "👥┊ الـقــســم الـخـامـس", description: "🔒 ┊ 「 قــســم الـمــجـمــوعـة 」", id: _p + "الأوامرادارةالمجموعة"},
+                    {title: "👑┊ الـقــســم الـسـادس", description: "🛠️ ┊「 قــســم المـطــور 」", id: _p + "الأوامرالمطور"},
+                    {title: "🚨┊ الـقــســم الـسـابـع", description: "🌟 ┊「 قــســم الابـــلاغ 」", id: _p + "الأوامرالابلاغ"},
+                    {title: "📰┊ الـقــســم الـثـامـن", description: "📑 ┊「 قــســم الاخــبــار 」", id: _p + "الأوامرالاخبار"},
+                    {title: "🌤️┊ الـقــســم الـتـاسـع", description: "🎧 ┊「 قــســم الـطـقـس 」", id: _p + "الأوامرالطقس"},
+                    {title: "🌙┊ الـقــســم الـعـاشـر", description: "🕋 ┊「 قــســم الـديـنــي 」", id: _p + "الأوامرالديني"},
+                    {title: "🎯┊ الـقــســم الـحـادي عـشـر", description: "🕸️ ┊「 قــســم الـتـرفـيـه 」", id: _p + "الأوامرالترفيه"},
+                    {title: "📦┊ الـقــســم الثـانـي عـشـر", description: "👾 ┊「 قــســم التـنصــيـب 」", id: _p + "الأوامرخاصالتنصيب"},
+                    {title: "⚡┊ الـقــســم الثـالـث عـشـر", description: "⚡ ┊「 قــســم الأدوات 」", id: _p + "الأوامراخرى"}
+                ]
+            }
+        ]
+
+        await conn.sendButton(m.chat, {
+            image: { url: BANNER },
+            caption: caption,
+            footer: { text: `𝗢𝘄𝗻𝗲𝗿: 𝗮𝗱𝗮𝗺.___.𝟵𝟴` }, // ✅ صلحنا هنا ثاني
+            buttons: [
+                { name: 'single_select', buttonParamsJson: JSON.stringify({ title: '🗂️ الأقــســام الرئــيـســية', sections: sections }) },
+                { name: 'quick_reply', buttonParamsJson: JSON.stringify({ display_text: '⭐ تـقـيـيـم الـبـوت', id: _p + 'rate' }) },
+                { name: 'cta_url', buttonParamsJson: JSON.stringify({ display_text: '🎉 قـنـاتــي وتـسـاب', url: channelLink }) }
+            ],
+            headerType: 4, // ✅ ضروري مع الصورة
+            contextInfo: newsletter
+        }, { quoted: m, mentions: [m.sender] })
+
+    } catch (e) {
+        console.error(e)
+        await conn.sendMessage(m.chat, { text: `❌ *خطأ:* ${e.message}`, contextInfo: newsletter }, { quoted: m })
+    }
+}
+
+handler.help = ['الأوامر', 'menu', 'اوامر']
+handler.tags = ['main']
+handler.command = /^(الأوامر|قائمة|menu|اوامر|الأوامرالكل|الأوامرالتحميل|الأوامرالبحث|الأوامرالذكاء|الأوامرالصور|الأوامرادارةالمجموعة|الأوامرالمطور|الأوامرالابلاغ|الأوامرالاخبار|الأوامرالطقس|الأوامرالديني|الأوامرالترفيه|الأوامرخاصالتنصيب|الأوامراخرى)$/i
 export default handler
-
-const more = String.fromCharCode(8206)
-const readMore = more.repeat(4001)
-
-function clockString(ms) {
-	let h = Math.floor(ms / 3600000)
-	let m = Math.floor(ms / 60000) % 60
-	let s = Math.floor(ms / 1000) % 60
-	return [h, m, s].map(v => v.toString().padStart(2, 0)).join(':')
-}
-
-function ucapan() {
-	const time = moment.tz('Asia/Jakarta').format('HH')
-	if (time < 4) return 'Good Night'
-	if (time < 10) return 'Good Morning'
-	if (time < 15) return 'Good Afternoon'
-	if (time < 18) return 'Good Evening'
-	return 'Good Night'
-}

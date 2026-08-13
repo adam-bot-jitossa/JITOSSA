@@ -381,15 +381,15 @@ export async function deleteUpdate(message) {
 
 global.dfail = (type, m, conn) => {
 	let msg = {
-		rowner: 'Only Developer - This command is for the bot developer only\nهذا الأمر مخصص للمطور فقط',
-owner: 'Only Owner - This command is for the bot owner only\nهذا الأمر مخصص لمالك البوت فقط',
-premium: 'Only Premium - This command is for premium users only\nهذا الأمر مخصص للمستخدمين المميزين فقط',
-group: 'Group Chat - This command can only be used in groups\nهذا الأمر يعمل داخل المجموعات فقط',
-private: 'Private Chat - This command can only be used in private chat\nهذا الأمر يعمل في المحادثة الخاصة فقط',
-admin: 'Only Admin - This command is for group admins only\nهذا الأمر مخصص للمشرفين فقط',
-botAdmin: 'Only Bot Admin - This command requires the bot to be an admin\nهذا الأمر يتطلب أن يكون البوت مشرفاً',
-unreg: 'Hello! 👋 You need to register in the bot database first before using this feature\nWrite .daftar Name.age to register\n\nمرحباً! 👋 يجب عليك التسجيل في قاعدة بيانات البوت أولاً قبل استخدام هذه الميزة\nاكتب .daftar الاسم.العمر للتسجيل',
-restrict: 'Restrict - This feature has not been activated in this chat\nهذه الميزة غير مفعّلة في هذه المحادثة',
+		rowner: '*هـذا الأمر مـخصـص للمـطـور فـقـط 「✨」*',
+owner: '*هـذا الأمـر مخـصـص لمـالك البـوت فـقـط 「🛠️」*',
+premium: '*هـذا الأمـر مخـصـص للمـستـخدميـن الممـيزيـن فـقـط 「🌟」*',
+group: '*هـذا الأمـر يـعمـل داخـل المـجمـوعـات فـقـط 「📌」*',
+private: '*هـذا الأمـر يعـمل فـي المـحادثـة الـخاصـة فـقـط 「😎」*',
+admin: '*هـذا الأمر مخـصـص للمـشـرفين فـقـط 「🍷」*',
+botAdmin: '*هذا الأمـر يتـطـلب أن يـكـون الـبـوت مشـرفـاً 「⚡」*',
+unreg: '*مــرحباً! 👋 يـجـب عـليـك التـسجـيل فـي قـاعـدة بيـانات البـوت أولاً قبل استـخـدام هــذه الـميـزة\nاكـتـب .تسجيل الاسـم.العـمـر للتسـجيـل',
+restrict: '*هـذه المـيـزة غـير مـفـعّلة فـي هـذه المـحـادثـة 「📝」*',
 	}[type];
 	if (msg) return conn.reply(m.chat, msg, m);
 };

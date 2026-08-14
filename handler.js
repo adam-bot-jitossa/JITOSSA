@@ -247,7 +247,7 @@ export async function handler(chatUpdate) {
 							console.error(e);
 						}
 					}
-					if (m.limit) m.reply(+m.limit + '1 مـن الـحد تــم استـخـدامـه ✔️');
+					if (m.limit) m.reply(+m.limit + '');
 				}
 				break;
 			}
@@ -316,7 +316,7 @@ export async function participantsUpdate({ id, participants, action, simulate = 
 						.replace('@user', `@${user.split('@')[0]}`)
 						.replace('@subject', this.getName(id))
 						.replace('@desc', groupMetadata.desc || '');
-					this.adReply(id, text, tamnel, null, { title: action == 'add' ? '💌 WELCOME' : '🐾 BYE', description: action == 'add' ? 'YES THE LOAD OF THE GROUP INCREASED1 :(' : 'BYE ! :)' });
+					this.adReply(id, text, tamnel, null, { title: action == 'add' ? '🎉 𝗝𝗜𝗧𝗢𝗦𝗦𝗔 𝗕𝗢𝗧 ' : '✨ 𝗝𝗜𝗧𝗢𝗦𝗦𝗔 𝗕𝗢𝗧 ', description: action == 'add' ? 'الـظـلام كيـتكلم هنــا... والاســرار عـندنا بـلا حـساب. دخـل عـلـى مسـؤوليتـك 🕯️ :(' : 'مـع السـلامــة 👋   ! :)' });
 				}
 			}
 			break;

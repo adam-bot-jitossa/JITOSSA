@@ -1,66 +1,86 @@
-// نظام الابلاغ - رقم خاص + معرف القناة
+// سكريبت البلاغ - مع صورة المستخدم + معرف القناة
+// ===== معرف القناة فقط =====
+const channelName = '𝗝𝗜𝗧𝗢𝗦𝗦𝗔 𝗕𝗢𝗧 🇲🇦'
+const CHANNEL_ID = '120363410733859643@newsletter'
+
+const newsletter = {
+    forwardingScore: 999,
+    isForwarded: true,
+    forwardedNewsletterMessageInfo: {
+        newsletterJid: CHANNEL_ID,
+        newsletterName: channelName
+    }
+}
+// ===========================
+
 let handler = async (m, { conn, text, usedPrefix, command }) => {
-  // ===== معلومات القناة =====
-  const اسم_القناة = '𝙄𝙎𝘼𝙂𝙄 𝙔𝙊𝙄𝘾𝙃𝙄 𝘽𝙊𝙏  ⚽⚡'
-  const النشرة = {
-      forwardingScore: 999,
-      isForwarded: true,
-      forwardedNewsletterMessageInfo: {
-          newsletterJid: '120363410733859643@newsletter', // <<<<<< حط هنا معرف القناة
-          newsletterName: اسم_القناة
-      }
-  }
-  // ========================
+  if (!text) return await conn.sendMessage(m.chat, {
+    text: `📌 *نـظام البـلاغـات*
+اسـتعمل الأمـر هكذا بـاش ترسـل بلاغ للـمطـور:
 
-  if (!text) return m.reply(`
-📌 *نـظـام الابـلاغ*
-استعمل الامر هكذا باش ترسل الابلاغ للمطور:
-
-*مثال:*
-${usedPrefix + command} البوت ما كيحملش فيديوهات الانستغرام
-`, null, { contextInfo: النشرة })
+*مـثـال:*
+${usedPrefix + command} البـوت ما كيحملش فيديوهات انستغرام
+`,
+    contextInfo: newsletter
+  }, { quoted: m })
 
   // رقم المطور الخاص
-  let رقم_المطور = '212666774170@s.whatsapp.net'
+  let developerNumber = '212698498657@s.whatsapp.net'
   
-  let المستخدم = m.pushName || 'مستخدم مجهول'
-  let معرف_المستخدم = m.sender.split('@')[0]
-  let اسم_المحادثة = m.isGroup ? (await conn.getName(m.chat)) : 'محادثة خاصة'
+  let user = m.pushName || 'مستخدم مجهول'
+  let userId = m.sender.split('@')[0]
+  let chatName = m.isGroup ? (await conn.getName(m.chat)) : 'خاص'
   
-  let رسالة_الابلاغ = `
-🚨 *ابـلاغ جـديـد*
+  // جيب صورة البروفايل ديال المستخدم
+  let ppUrl = await conn.profilePictureUrl(m.sender, 'image').catch(() => null)
+  
+  let reportMsg = `
+🚨 *بــــــــلاغ جــديـــــــــد*
 
-👤 *مـن:* ${المستخدم}
-📱 *الـرقـم:* wa.me/${معرف_المستخدم}
-💬 *الـمـحـادثـة:* ${اسم_المحادثة}
-⏰ *الـوقـت:* ${new Date().toLocaleString('ar-MA')}
+👤 *مـــن:* ${user}
+📱 *رقــــم:* wa.me/${userId}
+💬 *المـحادثــة:* ${chatName}
+⏰ *الــــوقـــت:* ${new Date().toLocaleString('ar-MA')}
 
-📝 *الـمـشـكـل:*
+📝 *المــشــكل:*
 ${text}
-
-𝗕𝘆 𝗮𝗱𝗮𝗺.___.𝟵𝟴
 `.trim()
 
   try {
-    // 1. نرسلو الابلاغ للمطور بلا contextInfo باش ما يخرجش خطأ
-    await conn.sendMessage(رقم_المطور, { text: رسالة_الابلاغ })
+    // رسالة للمطور فيها الصورة + النص + معرف القناة
+    if (ppUrl) {
+      await conn.sendMessage(developerNumber, { 
+        image: { url: ppUrl },
+        caption: reportMsg,
+        contextInfo: newsletter 
+      })
+    } else {
+      // الى ما عندوش صورة صيفط نص بوحدو
+      await conn.sendMessage(developerNumber, { 
+        text: reportMsg,
+        contextInfo: newsletter 
+      })
+    }
 
-    // 2. نرسلو تأكيد للمستخدم بالنشرة
-    await m.reply(`✅ *تـم ارسـال الابـلاغ بـنـجـاح*\n\nشـكـرا عـلـى الابـلاغ. الـمـطـور غـادي يـسـتـلـم الـرسـالـة ويـتـفـقـد الـمـشـكـل فـاقـرب وقـت مـمـكـن.`, {
-      contextInfo: النشرة
-    })
-    console.log(`[Report] تم ارسال ابلاغ من ${معرف_المستخدم} للمطور`)
-  } catch (خطأ) {
-    console.log('[Report Error]', خطأ)
-    await m.reply(`⚠️ حـدث خـطـأ: ${خطأ.message}\n\nتـأكـد ان الـبـوت يـقـدر يـرسـل رسـائـل لارقـام خـارجـيـة.`, {
-      contextInfo: النشرة
-    })
+    // رسالة للمستخدم
+    await conn.sendMessage(m.chat, {
+      text: `✅ *تـم إرسـال البـلاغ بنـجـاح*\n\nشكراً على التبليغ، المـطـور غـادي يتوصل بالرسالة ويـشـوف المـشـكل فأقـرب وقـت.`,
+      contextInfo: newsletter
+    }, { quoted: m })
+
+    console.log(`[Report] تــم إرسـال بـلاغ من ${userId} للمـطـور`)
+  } catch (e) {
+    console.log('[Report Error]', e)
+    await conn.sendMessage(m.chat, {
+      text: `⚠️ وقـع خـطأ: ${e.message}\n\nتأكد أن البوت يقدر يصـيفط رسـائل للأرقـام الخـارجيـة.`,
+      contextInfo: newsletter
+    }, { quoted: m })
   }
 }
 
-handler.help = ['ابلاغ <المشكلة>', 'report <المشكلة>']
-handler.tags = ['معلومات']
-handler.command = ['report', 'ابلاغ']
+handler.help = ['ابلاغ <المشكل>']
+handler.tags = ['info']
+handler.command = ['بلاغ', 'report', 'بلغ']
 handler.limit = false
 
 export default handler

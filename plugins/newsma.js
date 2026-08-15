@@ -4,7 +4,7 @@
 let handler = async (m, { conn, args, usedPrefix }) => {
     // ===== Channel Info + Instagram =====
     const channelName = ''
-    const instagram = '𝙄𝙎𝘼𝙂𝙄 𝙔𝙊𝙄𝘾𝙃𝙄 𝘽𝙊𝙏 - 𝟭𝟭 ⚽⚡'
+    const instagram = '𝗝𝗜𝗧𝗢𝗦𝗦𝗔 𝗕𝗢𝗧 🇲🇦'
     const newsletter = {
         forwardingScore: 999,
         isForwarded: true,

@@ -3,7 +3,7 @@
  * Scraping may be against the terms of service of the website.
  * Use it at your own risk.
  * @author wolep
- * plugin by adam.__.98
+ * plugin by noureddine ouafy
  */
 
 const gemini = {
@@ -15,15 +15,15 @@ const gemini = {
             "body": "f.req=%5B%5B%5B%22maGuAc%22%2C%22%5B0%5D%22%2Cnull%2C%22generic%22%5D%5D%5D&",
             "method": "POST"
         });
-        console.log('Successfully retrieved a new cookie.');
+        console.log('*تــم تجـديد رمـز الدخـول بنــجاح*.');
         const cookieHeader = r.headers.get('set-cookie');
-        if (!cookieHeader) throw new Error('Could not find "set-cookie" header in the response.');
+        if (!cookieHeader) throw new Error('تـعـذر الـعثـور علـى رأس "set-cookie" فـي الاسـتجـابة.');
         return cookieHeader.split(';')[0];
     },
 
     ask: async function (prompt, previousId = null) {
         if (typeof (prompt) !== "string" || !prompt?.trim()?.length) {
-            throw new Error(`Invalid prompt provided.`);
+            throw new Error(`*تـم تقـديم مـوجـه غيـر صـالــح*`);
         }
 
         let resumeArray = null;
@@ -65,31 +65,31 @@ const gemini = {
         const data = await response.text();
         const match = data.matchAll(/^\d+\n(.+?)\n/gm);
         
-      
+        // **NEW ROBUST PARSING LOGIC**
         const chunks = Array.from(match, m => m[1]);
         let text, newResumeArray;
         let found = false;
 
-      
+        // Iterate through response chunks from the end to find the valid one.
         for (const chunk of chunks.reverse()) {
             try {
                 const realArray = JSON.parse(chunk);
                 const parse1 = JSON.parse(realArray[0][2]);
                 
-                
+                // Check if the expected data structure for the answer exists.
                 if (parse1 && parse1[4] && parse1[4][0] && parse1[4][0][1] && typeof parse1[4][0][1][0] === 'string') {
                     newResumeArray = [...parse1[1], parse1[4][0][0]];
                     text = parse1[4][0][1][0].replace(/\*\*(.+?)\*\*/g, `*$1*`);
                     found = true;
-                    break; 
+                    break; // Exit loop once the correct chunk is found and parsed.
                 }
             } catch (e) {
-              
+                // Ignore chunks that don't parse correctly and continue.
             }
         }
 
         if (!found) {
-            throw new Error("Could not parse the response from the API. The response structure may have changed.");
+            throw new Error("*تـعذر تحـليل الـرد مـن الـ API. قـد يـكـون هيـكـل الاسـتجابـة قـد تغــير*");
         }
         
         const id = btoa(JSON.stringify({ newResumeArray, cookie: headers.cookie }));
@@ -98,66 +98,32 @@ const gemini = {
 };
 
 const geminiSessions = {};
-const autoAiChats = new Set();
 
 let handler = async (m, { conn, text, usedPrefix, command }) => {
-    const chat = m.chat;
-    const input = text?.trim()?.toLowerCase();
+    if (!text) throw `*مـن فضـلـك اكـتب سـؤالـك.* \n\n*مــثـل:* ${usedPrefix + command} مـرحـبا اريد معلومات حـول تعلـم إنـشاء تكبيقات?`;
 
-    // Toggle Auto AI mode
-    if (input === 'on') {
-        autoAiChats.add(chat);
-        return m.reply('âœ… ØªÙ€Ù€Ù… *ØªÙØ¹ÙŠÙ„* Ø§Ù„Ù€Ø°ÙƒÙ€Ø§Ø¡ Ø§Ù„ØªÙ€Ù„Ù‚Ø§Ø¦Ù€ÙŠ Ù„Ù‡Ù€Ø°Ù‡ Ø§Ù„Ù…Ù€Ø­Ù€Ø§Ø¯Ø«Ù€Ø©.');
-    }
-
-    if (input === 'off') {
-        autoAiChats.delete(chat);
-        return m.reply('âŒ ØªÙ€Ù€Ù… *ØªØ¹Ø·ÙŠÙ„* Ø§Ù„Ø°ÙƒÙ€Ù€Ø§Ø¡ Ø§Ù„ØªÙ€Ù„Ù‚Ø§Ø¦Ù€ÙŠ Ù„Ù‡Ù€Ø°Ù‡ Ø§Ù„Ù…Ù€Ø­Ø§Ø¯Ø«Ù€Ø©.');
-    }
-
-    if (input === '--reset') {
+    if (text.toLowerCase() === '--reset') {
         delete geminiSessions[m.sender];
-        return m.reply('ðŸ¤– Conversation history has been reset.');
+        return m.reply('🤖 تـم مـسـح تـاريـخ الـمـحـادثـة');
     }
-
-    if (!text) throw `*Ø§Ù„Ù€Ù…Ø±Ø¬Ù€Ùˆ ÙƒÙ€ØªØ§Ø¨Ù€Ø© Ø§Ù„Ù€Ø³Ù€Ø¤Ø§Ù„ Ø§Ù„Ù€Ø°ÙŠ ØªÙ€Ø±ÙŠÙ€Ø¯Ù‡ Ø§Ù† ÙŠÙ€Ù‚Ù€ÙˆÙ… Ø¨Ù€Ø§Ø¬Ù€Ø§Ø¨Ù€Ø© Ø¹Ù€Ù„ÙŠÙ€Ù‡.*\n\n*Ù…Ù€Ù€Ø«Ù€Ù€Ù„:* ${usedPrefix + command} Hello\n*Options:* ${usedPrefix + command} on | off`;
-
+    
     try {
-        await m.reply('â³ Ù„Ø­Ù€Ø¸Ø© ÙˆØ§Ø­Ù€Ø¯Ø©ØŒ Ø¬Ù€Ø§Ø±ÙŠ ØªØ­Ù€Ø¶ÙŠØ± Ø¥Ø¬Ø§Ø¨ØªÙ€Ùƒ');
+        await m.reply('⏳ لحـظـة واحــدة مــن فــضلـك...');
         
         const previousId = geminiSessions[m.sender];
         const result = await gemini.ask(text, previousId);
         geminiSessions[m.sender] = result.id;
-        await conn.reply(chat, result.text, m);
+        await conn.reply(m.chat, result.text, m);
 
     } catch (e) {
         console.error(e);
-        m.reply(`Sorry, an error occurred while processing your request. Please try again.\n\n*Error:* ${e.message}`);
+        m.reply(`*عـذراً، حـدث خـطــأ أثنـاء معـالجـة طلـبك. المرجـو المـحـاولة مـرة أخـرى* \n\n*Error:* ${e.message}`);
     }
 };
 
-
-handler.before = async function (m, { conn }) {
-    if (m.isBaileys || !m.text || m.fromMe) return;
-    if (!autoAiChats.has(m.chat)) return;
-
-    
-    if (m.text.startsWith('.') || m.text.startsWith('#') || m.text.startsWith('/')) return;
-
-    try {
-        await conn.sendPresenceUpdate('composing', m.chat);
-        const previousId = geminiSessions[m.sender];
-        const result = await gemini.ask(m.text, previousId);
-        geminiSessions[m.sender] = result.id;
-        await conn.reply(m.chat, result.text, m);
-    } catch (e) {
-        console.error('Auto AI Error:', e);
-    }
-};
-
-handler.help = ['meta', 'ai on', 'ai off'];
+handler.help = ['gemini'];
 handler.tags = ['ai'];
-handler.command = /^(meta|Ù…ÙŠØªØ§)$/i;
+handler.command = /^(gemini)$/i;
 handler.limit = true;
 
 export default handler;

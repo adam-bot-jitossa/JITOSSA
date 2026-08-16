@@ -23,7 +23,7 @@ let handler = async (m, { usedPrefix, command, text }) => {
 };
 
 handler.help = ['رسالة_الترحيب', 'رسالة_المغادرة', 'رسالة_الترقية', 'رسالة_التنزيل'];
-handler.tags = ['owner];
+handler.tags = ['group'];
 handler.command = /^(رسالة_الترحيب|رسالة_المغادرة|رسالة_الترقية|رسالة_التنزيل)$/i;
 handler.group = true;
 handler.admin = true;

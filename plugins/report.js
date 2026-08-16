@@ -1,4 +1,4 @@
-// سكريبت البلاغ - مع صورة المستخدم + معرف القناة
+// سكريبت الابلاغ - مع صورة المستخدم + معرف القناة
 // ===== معرف القناة فقط =====
 const channelName = '𝗝𝗜𝗧𝗢𝗦𝗦𝗔 𝗕𝗢𝗧 🇲🇦'
 const CHANNEL_ID = '120363410733859643@newsletter'
@@ -15,8 +15,8 @@ const newsletter = {
 
 let handler = async (m, { conn, text, usedPrefix, command }) => {
   if (!text) return await conn.sendMessage(m.chat, {
-    text: `📌 *نـظام البـلاغـات*
-اسـتعمل الأمـر هكذا بـاش ترسـل بلاغ للـمطـور:
+    text: `📌 *نـظام الابـلاغـات*
+اسـتعمل الأمـر هكذا بـاش ترسـل ابلاغ للـمطـور:
 
 *مـثـال:*
 ${usedPrefix + command} البـوت ما كيحملش فيديوهات انستغرام
@@ -35,7 +35,7 @@ ${usedPrefix + command} البـوت ما كيحملش فيديوهات انست
   let ppUrl = await conn.profilePictureUrl(m.sender, 'image').catch(() => null)
   
   let reportMsg = `
-🚨 *بــــــــلاغ جــديـــــــــد*
+🚨 *ابــــــــلاغ جــديـــــد*
 
 👤 *مـــن:* ${user}
 📱 *رقــــم:* wa.me/${userId}
@@ -64,11 +64,11 @@ ${text}
 
     // رسالة للمستخدم
     await conn.sendMessage(m.chat, {
-      text: `✅ *تـم إرسـال البـلاغ بنـجـاح*\n\nشكراً على التبليغ، المـطـور غـادي يتوصل بالرسالة ويـشـوف المـشـكل فأقـرب وقـت.`,
+      text: `✅ *تـم إرسـال الابـلاغ بنـجـاح*\n\nشكراً على الابـلاغ، المـطـور غـادي يتوصل بالرسالة ويـشـوف المـشـكل فأقـرب وقـت.`,
       contextInfo: newsletter
     }, { quoted: m })
 
-    console.log(`[Report] تــم إرسـال بـلاغ من ${userId} للمـطـور`)
+    console.log(`[Report] تــم إرسـال ابـلاغ من ${userId} للمـطـور`)
   } catch (e) {
     console.log('[Report Error]', e)
     await conn.sendMessage(m.chat, {
@@ -80,7 +80,7 @@ ${text}
 
 handler.help = ['ابلاغ <المشكل>']
 handler.tags = ['info']
-handler.command = ['بلاغ', 'report', 'بلغ']
+handler.command = ['ابلاغ', 'report', 'إبلاغ'] // <-- تبدل هنا
 handler.limit = false
 
 export default handler

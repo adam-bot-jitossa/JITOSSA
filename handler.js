@@ -247,7 +247,7 @@ export async function handler(chatUpdate) {
 							console.error(e);
 						}
 					}
-					if (m.limit) m.reply(+m.limit + '*تـم استنـفاد الـحـد*');
+					if (m.limit) m.reply(+m.limit + 'تـم استنـفاد الـحـد');
 				}
 				break;
 			}

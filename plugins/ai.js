@@ -121,9 +121,9 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
     }
 };
 
-handler.help = ['gemini'];
+handler.help = ['ميتا'];
 handler.tags = ['ai'];
-handler.command = /^(gemini)$/i;
+handler.command = /^(ميتا)$/i;
 handler.limit = true;
 
 export default handler;

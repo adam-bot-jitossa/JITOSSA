@@ -2,7 +2,7 @@
   <img src="https://files.catbox.moe/oxz51r.jpg" width="250" alt="Mysto Logo"/>
 </p>
 
-<h1 align="center">M Y S T O  O F - Bot WhatsApp AI</h1>
+<h1 align="center">𝗝𝗜𝗧𝗢𝗦𝗦𝗔 𝗕𝗢𝗧 🇲🇦</h1>
 <h3 align="center">بوت واتساب متعدد الاجهزة بالذكاء الاصطناعي</h3>
 
 <p align="center">

@@ -1,4 +1,4 @@
-.import syntaxerror from 'syntax-error';
+import syntaxerror from 'syntax-error';
 import * as baileys from 'baileys';
 import { format } from 'util';
 import { fileURLToPath } from 'url';

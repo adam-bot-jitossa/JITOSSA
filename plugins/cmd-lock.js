@@ -1,4 +1,4 @@
-let handler = async (m, { command }) => {
+.let handler = async (m, { command }) => {
 	if (!m.quoted) throw 'Tag Pesan!';
 	if (!m.quoted.fileSha256) throw 'SHA256 Hash Missing';
 	let sticker = db.data.sticker;

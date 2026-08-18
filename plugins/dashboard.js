@@ -1,4 +1,4 @@
-let handler = async (m) => {
+.let handler = async (m) => {
 	let stats = Object.entries(db.data.stats)
 		.map(([key, val]) => {
 			let name = Array.isArray(plugins[key]?.help) ? plugins[key]?.help.join(' , ') : plugins[key]?.help || key;

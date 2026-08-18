@@ -1,4 +1,4 @@
-.let handler = async (m, { text, conn }) => {
+let handler = async (m, { text, conn }) => {
 	if (!text) throw 'Enter text\n\nExample:\n.brat silana ai';
 	try {
 		const url = 'https://shinana-brat.hf.space/?text=' + encodeURIComponent(text);

@@ -1,4 +1,4 @@
-let handler = async (m) => {
+.let handler = async (m) => {
 	let response = '• *PREMIUM SUBSCRIPTION*\n\n';
 	let totalPremium = 0;
 

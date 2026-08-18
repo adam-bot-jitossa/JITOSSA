@@ -1,4 +1,4 @@
-//~ Ahmad tumbuh kembang
+.//~ Ahmad tumbuh kembang
 let handler = async (m, { conn, text }) => {
   try {
     const groupJid = m.chat;

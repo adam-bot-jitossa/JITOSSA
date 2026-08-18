@@ -6,7 +6,7 @@
 <h3 align="center">بـوت واتـسـاب متـعدد الاجـهـزة بالـذكـاء الاصـطـناعي</h3>
 
 <p align="center">
-<a href="رابط_الانستقرام_هنا"><img src="https://img.shields.io/badge/INSTAGRAM-E4405F?style=for-the-badge&logo=instagram&logoColor=white" /></a>
+<a href="https://instagram.com/adam.__.98"><img src="https://img.shields.io/badge/INSTAGRAM-E4405F?style=for-the-badge&logo=instagram&logoColor=white" /></a>
 </p>
 
 <p align="center">
@@ -14,5 +14,5 @@
 </p>
 
 <p align="center">
-<a href="https://wa.me/212666774170"><img src="https://img.shields.io/badge/DEVELOPER%20WHATSAPP-25D366?style=for-the-badge&logo=whatsapp&logoColor=white" /></a>
+<a href="https://wa.me/212698498657"><img src="https://img.shields.io/badge/DEVELOPER%20WHATSAPP-25D366?style=for-the-badge&logo=whatsapp&logoColor=white" /></a>
 </p>

@@ -1,4 +1,4 @@
-.import * as cheerio from 'cheerio';
+import * as cheerio from 'cheerio';
 
 let handler = async (m, { conn, text }) => {
 	if (!text) throw 'Input query or Sfile URL!';

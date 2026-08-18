@@ -1,4 +1,8 @@
-<h1 align="center">JITOSA - Bot WhatsApp AI</h1>
+<p align="center">
+  <img src="https://files.catbox.moe/oxz51r.jpg" width="250" alt="Mysto Logo"/>
+</p>
+
+<h1 align="center">M Y S T O  O F F - Bot WhatsApp AI</h1>
 <h3 align="center">بوت واتساب متعدد الاجهزة بالذكاء الاصطناعي</h3>
 
 <p align="center">
@@ -15,7 +19,10 @@
 
 ---
 
-### **معلومات عن JITOSA**
-**JITOSA** هو بوت واتساب حديث مبني بالذكاء الاصطناعي. 
+### **معلومات عن M Y S T O  O F F**
+**M Y S T O  O F** هو بوت واتساب حديث مبني بالذكاء الاصطناعي. 
 يدعم الرد التلقائي، الاوامر، والعمل على اجهزة متعددة. 
 تم تصميمه ليكون سهل الاستخدام وخفيف.
+
+### **المطور**
+تــم تـطـويـره مـن طـرف المـايـستـرو @adam.__.98

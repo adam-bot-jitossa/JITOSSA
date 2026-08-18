@@ -1,4 +1,4 @@
-.let handler = (m) => m;
+let handler = (m) => m;
 
 handler.before = async function (m) {
 	let user = db.data.users[m.sender];

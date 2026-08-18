@@ -1,4 +1,4 @@
-import path from 'path';
+.import path from 'path';
 import { unlinkSync } from 'fs';
 let handler = async (m, { usedPrefix, __dirname, args }) => {
 	let ar = Object.keys(plugins);

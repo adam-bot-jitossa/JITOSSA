@@ -1,4 +1,4 @@
-let handler = async (m) => {
+.let handler = async (m) => {
 	if (!m.quoted) return m.reply('Reply to the image/video you want to view');
 	if (m.quoted.mediaMessage[m.quoted?.mediaType]?.viewOnce) {
 		let msg = await m.getQuotedObj()?.message;

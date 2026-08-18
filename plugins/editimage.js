@@ -1,4 +1,4 @@
-import axios from 'axios';
+.import axios from 'axios';
 import crypto from 'crypto';
 
 const handler = async (m, { conn, text, args, usedPrefix, command }) => {

@@ -1,4 +1,4 @@
-.export async function before(m, { isAdmin, isOwner, isBotAdmin }) {
+export async function before(m, { isAdmin, isOwner, isBotAdmin }) {
 	const user = global.db.data.users[m.sender];
 	const chat = global.db.data.chats[m.chat];
 

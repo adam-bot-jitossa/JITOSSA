@@ -1,4 +1,4 @@
-.// elyas_tzy x furqan
+// elyas_tzy x furqan
 // permission to share
 import axios from 'axios';
 import * as cheerio from 'cheerio';

@@ -1,4 +1,4 @@
-.import path from 'path';
+import path from 'path';
 
 let handler = async (m, { conn }) => {
 	let text = m.quoted ? m.quoted?.text : m?.text;

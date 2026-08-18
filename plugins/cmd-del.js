@@ -1,4 +1,4 @@
-.let handler = async (m) => {
+let handler = async (m) => {
 	let hash;
 	if (m.quoted && m.quoted.fileSha256) hash = m.quoted.fileSha256;
 	if (!hash) throw `No hash found`;

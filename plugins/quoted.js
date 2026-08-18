@@ -1,4 +1,4 @@
-.async function handler(m) {
+async function handler(m) {
 	if (!m.quoted) throw 'reply to a message!';
 	
 	let q = await m.getQuotedObj();

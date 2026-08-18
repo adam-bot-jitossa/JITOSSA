@@ -1,4 +1,4 @@
-console.log('🐾 Starting...');
+..console.log('🐾 Starting...');
 
 import { Worker } from 'worker_threads';
 import { join, dirname } from 'path';

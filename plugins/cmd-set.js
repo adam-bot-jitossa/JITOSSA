@@ -1,4 +1,4 @@
-let handler = async (m, { text, usedPrefix, command }) => {
+.let handler = async (m, { text, usedPrefix, command }) => {
 	if (!m.quoted) throw `Reply to a sticker with the command *${usedPrefix + command}*`;
 	if (!m.quoted.fileSha256) throw 'SHA256 Hash Missing';
 	if (!text) throw `Usage:\n${usedPrefix + command} <text>\n\nExample:\n${usedPrefix + command} test`;

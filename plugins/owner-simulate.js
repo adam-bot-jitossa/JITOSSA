@@ -1,4 +1,4 @@
-let handler = async (m, { conn, usedPrefix, command, args: [event] }) => {
+.let handler = async (m, { conn, usedPrefix, command, args: [event] }) => {
 	if (!event)
 		return await conn.reply(
 			m.chat,

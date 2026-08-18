@@ -1,5 +1,5 @@
 {
-  "name": "JITOSSA",
+  "name": "jitossa-bot",
   "version": "1.0.0",
   "description": "Lightweight WhatsApp Multi-Device bot built with Baileys.",
   "main": "index.js",
@@ -16,26 +16,21 @@
     "format": "prettier --write .",
     "lint": "eslint . --ext .js"
   },
-  "author": "AgusXzz",
-  "homepage": "https://github.com/AgusXzz/ChiiMD#readme",
+  "author": "adam",
+  "homepage": "https://github.com/adam-xyz/jitossa-v1#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/AgusXzz/ChiiMD.git"
+    "url": "git+https://github.com/adam-xyz/jitossa-v1.git"
   },
   "bugs": {
-    "url": "https://github.com/AgusXzz/ChiiMD/issues"
+    "url": "https://github.com/adam-xyz/jitossa-v1/issues"
   },
   "keywords": [
-    "termux-whatsapp-bot",
+    "jitossa-bot",
     "whatsapp-bot",
     "whatsapp",
-    "js-whatsapp",
-    "whatsapp",
-    "Games-wabot",
-    "wabot-aq",
-    "multi-device",
-    "MD",
-    "baileys-md"
+    "baileys-md",
+    "multi-device"
   ],
   "license": "ISC",
   "dependencies": {

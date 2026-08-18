@@ -1,4 +1,4 @@
-let handler = async (m, { conn, text }) => {
+.let handler = async (m, { conn, text }) => {
 	if (!text) throw 'Number?.';
 	let who;
 
